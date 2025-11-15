@@ -1,0 +1,13 @@
+==10067== Memcheck, a memory error detector
+==10067== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==10067== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==10067== Command: ./bin/add01
+==10067== 
+==10067== 
+==10067== HEAP SUMMARY:
+==10067==     in use at exit: 0 bytes in 0 blocks
+==10067==   total heap usage: 3 allocs, 3 frees, 180 bytes allocated
+==10067== 
+==10067== All heap blocks were freed -- no leaks are possible
+==10067== 
+==10067== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

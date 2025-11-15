@@ -1,0 +1,22 @@
+==9938== Memcheck, a memory error detector
+==9938== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==9938== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==9938== Command: ./bin/free_bst03
+==9938== 
+==9938== 
+==9938== HEAP SUMMARY:
+==9938==     in use at exit: 228 bytes in 19 blocks
+==9938==   total heap usage: 19 allocs, 0 frees, 228 bytes allocated
+==9938== 
+==9938== 228 bytes in 19 blocks are definitely lost in loss record 1 of 1
+==9938==    at 0x4885250: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-arm64-linux.so)
+==9938==    by 0x108B67: main (free_bst03.c:8)
+==9938== 
+==9938== LEAK SUMMARY:
+==9938==    definitely lost: 228 bytes in 19 blocks
+==9938==    indirectly lost: 0 bytes in 0 blocks
+==9938==      possibly lost: 0 bytes in 0 blocks
+==9938==    still reachable: 0 bytes in 0 blocks
+==9938==         suppressed: 0 bytes in 0 blocks
+==9938== 
+==9938== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)

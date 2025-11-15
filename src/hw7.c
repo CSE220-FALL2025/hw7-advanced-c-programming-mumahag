@@ -1,4 +1,18 @@
 #include "hw7.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+#include <assert.h>
+
+static matrix_sf *alloc_matrix(char name, unsigned int rows, unsigned int cols) {
+    matrix_sf *m = malloc(sizeof(matrix_sf) + rows * cols * sizeof(int));
+    if (!m) return NULL;
+    m->name = name;
+    m->num_rows = rows;
+    m->num_cols = cols;
+    return m;
+}
 
 bst_sf* insert_bst_sf(matrix_sf *mat, bst_sf *root) {
     return NULL;
@@ -12,7 +26,13 @@ void free_bst_sf(bst_sf *root) {
 }
 
 matrix_sf* add_mats_sf(const matrix_sf *mat1, const matrix_sf *mat2) {
-    return NULL;
+    assert(mat1 && mat2);
+    unsigned int r = mat1->num_rows;
+    unsigned int c = mat1->num_cols;
+    matrix_sf *res = alloc_matrix('?', r, c);
+    if (!res) return NULL;
+    for (unsigned int i = 0; i < r * c; i++) res ->values[i] = mat1->values[i] + mat2->values[i];
+    return res;
 }
 
 matrix_sf* mult_mats_sf(const matrix_sf *mat1, const matrix_sf *mat2) {
