@@ -284,6 +284,18 @@ matrix_sf* evaluate_expr_sf(char name, char *expr, bst_sf *root) {
     return final;
 }
 
+static void free_bst_except(bst_sf *root, matrix_sf *keep) {
+    if (!root) return;
+
+    free_bst_except(root->left_child, keep);
+    free_bst_except(root->right_child, keep);
+
+    if (root->mat != keep) {
+        free(root->mat);
+    }
+    free(root);
+}
+
 matrix_sf *execute_script_sf(char *filename) {
     if (!filename) return NULL;
     FILE *f = fopen(filename, "r");
@@ -326,6 +338,10 @@ matrix_sf *execute_script_sf(char *filename) {
         }
    }
 
+   if (root) {
+    free_bst_except(root,last);
+   }
+   
    free(line);
    fclose(f);
    return last;
