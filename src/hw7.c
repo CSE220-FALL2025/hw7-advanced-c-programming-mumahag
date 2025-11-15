@@ -36,11 +36,36 @@ matrix_sf* add_mats_sf(const matrix_sf *mat1, const matrix_sf *mat2) {
 }
 
 matrix_sf* mult_mats_sf(const matrix_sf *mat1, const matrix_sf *mat2) {
-   return NULL;
+    assert(mat1 && mat2);
+    unsigned int r = mat1->num_rows;
+    unsigned int m = mat1->num_cols;
+    unsigned int c = mat2->num_cols;
+    matrix_sf *res = alloc_matrix('?', r, c);
+    if (!res) return NULL;
+    for (unsigned int i = 0; i < r; i++) {
+        for (unsigned int j = 0; j < c; j++) {
+            long sum = 0;
+            for (unsigned int k = 0; k < m; k++) {
+                sum += (long)mat1->values[i*m + k] * (long)mat2->values[k*c + j];
+            }
+            res ->values[i*c + j] = (int)sum;
+        }
+    }
+    return res;
 }
 
 matrix_sf* transpose_mat_sf(const matrix_sf *mat) {
-    return NULL;
+    assert(mat);
+    unsigned int r = mat->num_rows;
+    unsigned int c = mat->num_cols;
+    matrix_sf *res = alloc_matrix('?', c, r);
+    if (!res) return NULL;
+    for (unsigned int i = 0; i < r; i++) {
+        for (unsigned int j = 0; j < c; j++) {
+            res->values[j*r + i] = mat->values[i*c + j];
+        }
+    }
+    return res;
 }
 
 matrix_sf* create_matrix_sf(char name, const char *expr) {
