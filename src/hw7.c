@@ -15,14 +15,36 @@ static matrix_sf *alloc_matrix(char name, unsigned int rows, unsigned int cols) 
 }
 
 bst_sf* insert_bst_sf(matrix_sf *mat, bst_sf *root) {
-    return NULL;
+    if (!mat) return root;
+    if (!root) {
+        bst_sf *node = malloc(sizeof(bst_sf));
+        if (!node) return NULL;
+        node->mat = mat;
+        node->left_child = NULL;
+        node->right_child = NULL;
+        return node;
+    }
+    if (mat->name < root->mat->name) {
+        root->left_child = insert_bst_sf(mat, root->left_child);
+    } else {
+        root->right_child = insert_bst_sf(mat, root->right_child);
+    }
+    return root;
 }
 
 matrix_sf* find_bst_sf(char name, bst_sf *root) {
-    return NULL;
+    if (!root) return NULL;
+    if (name == root->mat->name) return root->mat;
+    if (name < root->mat->name) return find_bst_sf(name, root->left_child);
+    return find_bst_sf(name, root->right_child);
 }
 
 void free_bst_sf(bst_sf *root) {
+    if (!root) return;
+    free_bst_sf(root->left_child);
+    free_bst_sf(root->right_child);
+    if (root->mat) free(root->mat);
+    free(root);
 }
 
 matrix_sf* add_mats_sf(const matrix_sf *mat1, const matrix_sf *mat2) {
@@ -69,7 +91,36 @@ matrix_sf* transpose_mat_sf(const matrix_sf *mat) {
 }
 
 matrix_sf* create_matrix_sf(char name, const char *expr) {
-    return NULL;
+    if (!expr) return NULL;
+    const char *p = expr;
+    while (isspace((unsigned char)*p)) p++;
+    char *endptr;
+    long nr = strtol(p, &endptr, 10);
+    if (endptr == p || nr <= 0) return NULL;
+    p = endptr;
+    while (isspace((unsigned char)*p)) p++;
+    long nc = strtol(p, &endptr, 10);
+    if (endptr == p || nc <= 0) return NULL;
+    p = endptr;
+    while (*p && *p != '[') p++;
+    if (!*p) return NULL;
+    p++;
+
+    matrix_sf *m = alloc_matrix(name, (unsigned int)nr, (unsigned int)nc);
+    if (!m) return NULL;
+    unsigned int total = (unsigned int)(nr * nc);
+    unsigned int idx = 0;
+    while (*p && idx < total) {
+        while (isspace((unsigned int)*p)) p++;
+        if (*p ==';') { p++; continue; }
+        if (*p == ']') break;
+        long val = strtol (p, &endptr, 10);
+        if (endptr == p) { p++; continue; }
+        m->values[idx++] = (int)val;
+        p = endptr;
+    }
+    while (idx < total) m->values[idx++] = 0;
+    return m;
 }
 
 char* infix2postfix_sf(char *infix) {
